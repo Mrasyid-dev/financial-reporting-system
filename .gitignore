@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build outputs
+dist/
+build/
+.next/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+financial-api
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+
+# Coverage
+coverage/
+*.coverprofile
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
