@@ -47,6 +47,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8081
     container_name: financial-frontend
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:8081

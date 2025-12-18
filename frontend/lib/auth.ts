@@ -16,7 +16,7 @@ export interface LoginRequest {
 
 export const authService = {
   login: async (credentials: LoginRequest): Promise<LoginResponse> => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/auth/login`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8081'}/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
