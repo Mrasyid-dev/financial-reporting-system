@@ -230,7 +230,7 @@ export default function DashboardPage() {
                   tick={{ fill: '#64748b', fontSize: 12, fontWeight: 500 }}
                   axisLine={{ stroke: '#cbd5e1' }}
                   tickLine={{ stroke: '#cbd5e1' }}
-                  tickFormatter={(value) => {
+                  tickFormatter={(value: number) => {
                     if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
                     if (value >= 1000) return `${(value / 1000).toFixed(0)}K`;
                     return value.toString();

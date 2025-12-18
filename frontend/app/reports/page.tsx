@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type ChangeEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { format, subDays } from 'date-fns'
@@ -81,7 +81,7 @@ export default function ReportsPage() {
               </label>
               <select
                 value={reportType}
-                onChange={(e) => setReportType(e.target.value as 'profit-loss' | 'revenue-category' | 'top-customers')}
+                onChange={(e: ChangeEvent<HTMLSelectElement>) => setReportType(e.target.value as 'profit-loss' | 'revenue-category' | 'top-customers')}
                 className="w-full px-4 py-2.5 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-slate-700 font-medium"
               >
                 <option value="profit-loss">Profit & Loss</option>
@@ -96,7 +96,7 @@ export default function ReportsPage() {
               <input
                 type="date"
                 value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setStartDate(e.target.value)}
                 className="w-full px-4 py-2.5 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-slate-700 font-medium"
               />
             </div>
@@ -107,7 +107,7 @@ export default function ReportsPage() {
               <input
                 type="date"
                 value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setEndDate(e.target.value)}
                 className="w-full px-4 py-2.5 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-slate-700 font-medium"
               />
             </div>
@@ -248,7 +248,7 @@ export default function ReportsPage() {
                   tick={{ fill: '#64748b', fontSize: 12, fontWeight: 500 }}
                   axisLine={{ stroke: '#cbd5e1' }}
                   tickLine={{ stroke: '#cbd5e1' }}
-                  tickFormatter={(value) => {
+                  tickFormatter={(value: number) => {
                     if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
                     if (value >= 1000) return `${(value / 1000).toFixed(0)}K`;
                     return value.toString();
@@ -363,7 +363,7 @@ export default function ReportsPage() {
                   tick={{ fill: '#64748b', fontSize: 12, fontWeight: 500 }}
                   axisLine={{ stroke: '#cbd5e1' }}
                   tickLine={{ stroke: '#cbd5e1' }}
-                  tickFormatter={(value) => {
+                  tickFormatter={(value: number) => {
                     if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
                     if (value >= 1000) return `${(value / 1000).toFixed(0)}K`;
                     return value.toString();

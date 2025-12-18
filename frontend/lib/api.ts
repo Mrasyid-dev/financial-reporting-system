@@ -37,10 +37,13 @@ api.interceptors.response.use(
       || error.message 
       || 'An unexpected error occurred'
     
-    const enhancedError = new Error(errorMessage)
+    const enhancedError = new Error(errorMessage) as Error & {
+      status?: number
+      data?: unknown
+    }
     if (error.response) {
-      (enhancedError as any).status = error.response.status
-      (enhancedError as any).data = error.response.data
+      enhancedError.status = error.response.status
+      enhancedError.data = error.response.data
     }
     
     return Promise.reject(enhancedError)
