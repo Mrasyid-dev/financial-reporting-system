@@ -48,3 +48,7 @@ tmp/
 temp/
 *.tmp
 
+# AI Context Files (not for version control)
+*-ai-context.md
+prompt-feature-development.md
+
