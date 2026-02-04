@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"log"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -44,20 +45,27 @@ func (s *Service) Login(ctx context.Context, req LoginRequest) (*LoginResponse, 
 	var email sql.NullString
 
 	// Get user from database
+	// Note: Using explicit schema to ensure we query the correct schema
 	err := s.db.QueryRow(ctx,
-		"SELECT id, username, password_hash, email FROM users WHERE username = $1",
+		`SELECT id, username, password_hash, email FROM "financial-reporting-db".users WHERE username = $1`,
 		req.Username,
 	).Scan(&userID, &username, &passwordHash, &email)
 
 	if err != nil {
+		log.Printf("Login failed - user not found: %s, error: %v", req.Username, err)
 		return nil, errors.New("invalid credentials")
 	}
+
+	log.Printf("User found: %s, hash length: %d", username, len(passwordHash))
 
 	// Verify password
 	err = bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(req.Password))
 	if err != nil {
+		log.Printf("Login failed - password mismatch for user: %s", username)
 		return nil, errors.New("invalid credentials")
 	}
+
+	log.Printf("Login successful for user: %s", username)
 
 	// Generate JWT token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{

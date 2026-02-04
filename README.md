@@ -44,7 +44,8 @@ This project demonstrates production-grade financial reporting capabilities with
 - React Query
 
 **Infrastructure:**
-- Docker & Docker Compose
+- Docker & Docker Compose (for local development)
+- Supabase (for production deployment)
 - PostgreSQL stored procedures (PL/pgSQL)
 
 ## 📊 Database Design

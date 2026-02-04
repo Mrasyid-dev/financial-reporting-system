@@ -31,7 +31,7 @@ BEGIN
     FOR i IN 1..1000 LOOP
         INSERT INTO customers (id, name, email, phone) VALUES
         (
-            uuid_generate_v4(),
+            gen_random_uuid(),
             'Customer ' || i,
             'customer' || i || '@example.com',
             '+1-555-' || LPAD(i::TEXT, 4, '0')
@@ -87,7 +87,7 @@ BEGIN
             -- Create transaction
             INSERT INTO transactions (id, transaction_date, reference_number, description, transaction_type, customer_id, total_amount)
             VALUES (
-                uuid_generate_v4(),
+                gen_random_uuid(),
                 trans_date,
                 'REF-' || TO_CHAR(trans_date, 'YYYYMMDD') || '-' || LPAD(j::TEXT, 6, '0'),
                 'Transaction ' || trans_date || ' #' || j,

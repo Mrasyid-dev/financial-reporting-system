@@ -11,9 +11,14 @@ import (
 	dbconn "financial-reporting-system/internal/db"
 	"financial-reporting-system/internal/reports"
 	"financial-reporting-system/internal/server"
+	
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// Load .env file
+	_ = godotenv.Load() // Ignore error if .env doesn't exist (e.g., in production with actual env vars)
+	
 	// Load configuration
 	cfg, err := config.Load()
 	if err != nil {
@@ -33,7 +38,7 @@ func main() {
 	reportCache := cache.New(5 * 60 * time.Second)
 
 	// Initialize services
-	reportService := reports.NewService(pool, reportCache)
+	reportService := reports.NewService(pool, reportCache, cfg.DBSchema)
 
 	// Initialize handlers
 	authHandler := auth.NewHandler(pool, cfg.JWTSecret)

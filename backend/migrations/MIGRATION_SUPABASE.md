@@ -1,5 +1,25 @@
+# 🚀 Quick Migration Guide - Supabase
+
+## Copy-Paste Ready Script
+
+Buka **Supabase SQL Editor**, copy-paste script di bawah ini dalam **SATU query box**, lalu klik **RUN**:
+
+```sql
+-- ============================================
+-- MIGRATION SCRIPT FOR SUPABASE
+-- Financial Reporting System
+-- ============================================
+
+-- Step 1: Create schema
+CREATE SCHEMA IF NOT EXISTS "financial-reporting-db";
+
+-- Step 2: Set search path
+SET search_path TO "financial-reporting-db", public;
+
+-- Step 3: Create Tables
+-- Note: Using gen_random_uuid() (built-in PostgreSQL 13+, no extension needed)
+
 -- Categories table
--- Note: Using gen_random_uuid() which is built-in PostgreSQL 13+ (no extension needed)
 CREATE TABLE categories (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(255) NOT NULL UNIQUE,
@@ -82,4 +102,45 @@ CREATE INDEX idx_categories_type ON categories(type);
 -- Composite indexes for common query patterns
 CREATE INDEX idx_transactions_date_type ON transactions(transaction_date, transaction_type);
 CREATE INDEX idx_transaction_items_transaction_account ON transaction_items(transaction_id, account_id);
+```
 
+Klik **RUN** → Done! ✅
+
+---
+
+## Next Steps
+
+### 1. Create Stored Procedures
+
+Copy-paste isi file `0002_stored_procedures.sql` (dalam query terpisah atau gabung):
+
+```sql
+SET search_path TO "financial-reporting-db", public;
+-- Copy paste isi 0002_stored_procedures.sql
+```
+
+### 2. Seed Data (Optional - Takes 5-10 minutes)
+
+Copy-paste isi file `0003_seed_data.sql`:
+
+```sql
+SET search_path TO "financial-reporting-db", public;
+-- Copy paste isi 0003_seed_data.sql
+```
+
+---
+
+## Verify Migration
+
+```sql
+-- Check tables created
+SELECT table_name 
+FROM information_schema.tables 
+WHERE table_schema = 'financial-reporting-db'
+ORDER BY table_name;
+
+-- Check schema
+SELECT current_schema();
+```
+
+Expected: 6 tables in `financial-reporting-db` schema ✅

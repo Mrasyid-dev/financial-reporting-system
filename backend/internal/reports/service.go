@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"time"
 
 	"financial-reporting-system/internal/cache"
@@ -12,14 +13,17 @@ import (
 )
 
 type Service struct {
-	db    *pgxpool.Pool
-	cache *cache.Cache
+	db     *pgxpool.Pool
+	cache  *cache.Cache
+	schema string
 }
 
-func NewService(db *pgxpool.Pool, cache *cache.Cache) *Service {
+func NewService(db *pgxpool.Pool, cache *cache.Cache, schema string) *Service {
+	log.Printf("Report Service initialized with schema: '%s'", schema)
 	return &Service{
-		db:    db,
-		cache: cache,
+		db:     db,
+		cache:  cache,
+		schema: schema,
 	}
 }
 
@@ -76,8 +80,10 @@ func (s *Service) GetProfitLoss(ctx context.Context, startDate, endDate time.Tim
 		}
 	}
 
-	// Execute stored procedure
-	rows, err := s.db.Query(ctx, "SELECT * FROM sp_profit_loss($1, $2)", startDate, endDate)
+	// Execute stored procedure with schema from config
+	query := fmt.Sprintf(`SELECT * FROM "%s".sp_profit_loss($1, $2)`, s.schema)
+	log.Printf("Executing query: %s with dates: %s to %s", query, startDate.Format("2006-01-02"), endDate.Format("2006-01-02"))
+	rows, err := s.db.Query(ctx, query, startDate, endDate)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute stored procedure: %w", err)
 	}
@@ -124,7 +130,8 @@ func (s *Service) GetRevenueByCategory(ctx context.Context, startDate, endDate t
 	}
 
 	// Execute stored procedure
-	rows, err := s.db.Query(ctx, "SELECT * FROM sp_revenue_by_category($1, $2)", startDate, endDate)
+	query := fmt.Sprintf(`SELECT * FROM "%s".sp_revenue_by_category($1, $2)`, s.schema)
+	rows, err := s.db.Query(ctx, query, startDate, endDate)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute stored procedure: %w", err)
 	}
@@ -171,7 +178,8 @@ func (s *Service) GetTopCustomers(ctx context.Context, startDate, endDate time.T
 	}
 
 	// Execute stored procedure
-	rows, err := s.db.Query(ctx, "SELECT * FROM sp_top_customers($1, $2, $3)", startDate, endDate, limit)
+	query := fmt.Sprintf(`SELECT * FROM "%s".sp_top_customers($1, $2, $3)`, s.schema)
+	rows, err := s.db.Query(ctx, query, startDate, endDate, limit)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute stored procedure: %w", err)
 	}

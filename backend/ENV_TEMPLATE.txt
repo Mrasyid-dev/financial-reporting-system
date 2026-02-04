@@ -1,0 +1,33 @@
+# ============================================
+# FINANCIAL REPORTING SYSTEM - ENV TEMPLATE
+# ============================================
+# Copy this file to .env and fill in your values
+
+# Database Configuration (Supabase)
+# Get these from: Supabase Dashboard → Settings → Database → Connection String (Direct Connection)
+DB_HOST=your-supabase-host.supabase.co
+DB_PORT=5432
+DB_USER=postgres.your-project-ref
+DB_PASS=your_supabase_password
+DB_NAME=postgres
+DB_SCHEMA=your-schema-name
+
+# Server Configuration
+SERVER_PORT=8080
+SERVER_HOST=0.0.0.0
+
+# JWT Secret (minimum 32 characters for production)
+# Generate secure secret: openssl rand -base64 32
+JWT_SECRET=your_secure_jwt_secret_key_here_minimum_32_characters
+
+# Environment (development/production)
+ENVIRONMENT=development
+
+# ============================================
+# INSTRUCTIONS:
+# ============================================
+# 1. Copy this file: cp ENV_TEMPLATE.txt .env
+# 2. Update DB_HOST, DB_PASS with your Supabase credentials
+# 3. Update DB_SCHEMA with your custom schema name
+# 4. Generate secure JWT_SECRET for production
+# 5. Never commit .env file to git!
