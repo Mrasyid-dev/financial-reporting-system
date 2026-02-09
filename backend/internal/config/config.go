@@ -47,10 +47,15 @@ func getEnv(key, defaultValue string) string {
 }
 
 func (c *Config) DatabaseURL() string {
-	// Untuk Supabase, gunakan sslmode=require
+	// Default SSL logic
 	sslMode := "disable"
 	if c.Environment == "production" || c.DBHost != "localhost" {
 		sslMode = "require"
+	}
+
+	// Override if env var is set
+	if envSSL := getEnv("DB_SSL_MODE", ""); envSSL != "" {
+		sslMode = envSSL
 	}
 	
 	// Tambahkan search_path untuk custom schema
