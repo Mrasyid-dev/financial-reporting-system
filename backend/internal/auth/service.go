@@ -45,9 +45,9 @@ func (s *Service) Login(ctx context.Context, req LoginRequest) (*LoginResponse, 
 	var email sql.NullString
 
 	// Get user from database
-	// Note: Using explicit schema to ensure we query the correct schema
+	// Note: Using search_path from connection string to determine schema
 	err := s.db.QueryRow(ctx,
-		`SELECT id, username, password_hash, email FROM "financial-reporting-db".users WHERE username = $1`,
+		`SELECT id, username, password_hash, email FROM users WHERE username = $1`,
 		req.Username,
 	).Scan(&userID, &username, &passwordHash, &email)
 
